@@ -5,7 +5,7 @@ public class PiUtil {
 	public static Integer getGpuTemp() {
 		String retStr = exe("/opt/vc/bin/vcgencmd measure_temp");
 		if (StringUtil.isNotBlank(retStr)) {
-			return Double.valueOf(Double.valueOf(retStr.replace("temp=", "").replace("'C", "")) * 1000).intValue();
+			return Double.valueOf(Double.valueOf(retStr.replace("temp=", "").replace("'C", "").trim()) * 1000).intValue();
 		}
 		return null;
 	}
@@ -13,7 +13,7 @@ public class PiUtil {
 	public static Integer getCpuTemp() {
 		String retStr = exe("cat /sys/class/thermal/thermal_zone0/temp");
 		if (StringUtil.isNotBlank(retStr)) {
-			return Integer.valueOf(retStr);
+			return Integer.valueOf(retStr.trim());
 		}
 		return null;
 	}
