@@ -1,4 +1,4 @@
-package com.tianyl.pi;
+package com.tianyl.pi.task;
 
 public interface Task {
 
