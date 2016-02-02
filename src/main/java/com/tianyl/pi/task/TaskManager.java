@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.tianyl.pi.log.LogManager;
+
 public class TaskManager {
 
 	private List<Task> tasks = new ArrayList<Task>();
@@ -19,7 +21,11 @@ public class TaskManager {
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					task.run();
+					try {
+						task.run();
+					} catch (Exception e) {
+						LogManager.log(e);
+					}
 				}
 			}, 1000, 1000 * task.getPeriod());
 		}
