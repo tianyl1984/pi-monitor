@@ -22,7 +22,7 @@ public class PiTempSaveTask implements Task {
 
 	@Override
 	public int getPeriod() {
-		return 10;
+		return 60;
 	}
 
 }
