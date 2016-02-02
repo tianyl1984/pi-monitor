@@ -31,10 +31,6 @@ public class RequestResult {
 		return resultStr;
 	}
 
-	public void setResultStr(String resultStr) {
-		this.resultStr = resultStr;
-	}
-
 	public byte[] getResultBytes() {
 		return resultBytes;
 	}

@@ -120,4 +120,11 @@ public class JdbcUtil {
 		return conn;
 	}
 
+	public static Integer getInteger(ResultSet rs, String label) throws SQLException {
+		if (rs.getObject(label) != null) {
+			return rs.getInt(label);
+		}
+		return null;
+	}
+
 }

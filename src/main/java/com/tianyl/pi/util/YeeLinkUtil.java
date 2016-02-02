@@ -14,9 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-
 public class YeeLinkUtil {
 
 	public static String post(String url, Map<String, String> paramMap) {
@@ -59,8 +56,8 @@ public class YeeLinkUtil {
 		return result;
 	}
 
-	public static String post(String url, String body) {
-		String result = "";
+	public static RequestResult post(String url, String body) {
+		RequestResult rr = new RequestResult();
 		try {
 			HttpURLConnection conn = (HttpURLConnection) (new URL(checkUrl(url)).openConnection());
 			conn.setDoInput(true);
@@ -76,16 +73,19 @@ public class YeeLinkUtil {
 			conn.connect();
 			writeBody(conn, body);
 			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-				String str = readStream(conn.getErrorStream());
-				System.out.println(str);
-				throw new IOException();
+				rr.setOk(false);
+				rr.setResultBytes(IOUtils.toByteArray(conn.getErrorStream()));
+			} else {
+				byte[] bs = IOUtils.toByteArray(conn.getInputStream());
+				rr.setOk(true);
+				rr.setResultBytes(bs);
 			}
-			result = readStream(conn.getInputStream());
 			conn.disconnect();
 		} catch (Exception e) {
 			e.printStackTrace();
+			rr.setOk(false);
 		}
-		return result;
+		return rr;
 	}
 
 	public static String get(String url) {
@@ -105,7 +105,7 @@ public class YeeLinkUtil {
 			conn.connect();
 			if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
 				String str = readStream(conn.getErrorStream());
-				System.out.println(str);
+				System.out.println(conn.getResponseCode() + ":" + str);
 				throw new IOException();
 			}
 			result = readStream(conn.getInputStream());
@@ -119,7 +119,7 @@ public class YeeLinkUtil {
 	private static String getKey() {
 		String key = FileUtil.read(new File("/home/pi/pidata/yeelink.key"));
 		if (StringUtil.isBlank(key)) {
-			throw new RuntimeException("获取 U-ApiKey 识别");
+			throw new RuntimeException("获取 U-ApiKey错误");
 		}
 		return key;
 	}
@@ -171,29 +171,4 @@ public class YeeLinkUtil {
 		return result;
 	}
 
-	public static void main(String[] args) {
-		String url = "http://api.yeelink.net/v1.0/device/343680/sensor/381672/datapoints";
-		JSONArray json = new JSONArray();
-
-		JSONObject obj1 = new JSONObject();
-		obj1.put("timestamp", "2015-12-28T16:13:14");
-		obj1.put("value", 40.5d);
-		json.add(obj1);
-
-		JSONObject obj2 = new JSONObject();
-		obj2.put("timestamp", "2015-12-28T16:15:14");
-		obj2.put("value", 43.5d);
-		json.add(obj2);
-
-		JSONObject obj3 = new JSONObject();
-		obj3.put("timestamp", "2015-12-28T16:19:14");
-		obj3.put("value", 38.5d);
-		json.add(obj3);
-
-		// String str = post(url, json.toJSONString());
-
-		url = "http://api.yeelink.net/v1.0/device/343680/sensor/381678/datapoints";
-		String str = get(url);
-		System.out.println(str);
-	}
 }
