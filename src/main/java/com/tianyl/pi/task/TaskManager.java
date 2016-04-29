@@ -21,11 +21,14 @@ public class TaskManager {
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
+					Thread.currentThread().setName("thread:" + task.getName());
+					LogManager.log("start task:" + task.getName());
 					try {
 						task.run();
 					} catch (Exception e) {
 						LogManager.log(e);
 					}
+					LogManager.log("end task:" + task.getName());
 				}
 			}, 1000, 1000 * task.getPeriod());
 		}

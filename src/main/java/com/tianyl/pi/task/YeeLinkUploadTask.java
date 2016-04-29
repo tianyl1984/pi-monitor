@@ -60,4 +60,9 @@ public class YeeLinkUploadTask implements Task {
 		return 20;
 	}
 
+	@Override
+	public String getName() {
+		return "UploadTask";
+	}
+
 }

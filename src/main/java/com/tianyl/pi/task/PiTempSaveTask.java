@@ -25,4 +25,9 @@ public class PiTempSaveTask implements Task {
 		return 60;
 	}
 
+	@Override
+	public String getName() {
+		return "TempSaveTask";
+	}
+
 }

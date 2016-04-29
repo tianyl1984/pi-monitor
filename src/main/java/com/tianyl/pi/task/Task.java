@@ -6,4 +6,5 @@ public interface Task {
 
 	int getPeriod();
 
+	String getName();
 }
