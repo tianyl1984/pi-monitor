@@ -17,6 +17,8 @@ public class YeeLinkUtil {
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
+			conn.setConnectTimeout(30 * 1000);
+			conn.setReadTimeout(30 * 1000);
 			conn.setUseCaches(false);
 			// 仅对当前请求自动重定向
 			conn.setInstanceFollowRedirects(true);
