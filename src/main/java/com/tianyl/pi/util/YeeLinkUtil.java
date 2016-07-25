@@ -49,7 +49,7 @@ public class YeeLinkUtil {
 	}
 
 	private static String getKey() {
-		String key = FileUtil.read(new File("/home/pi/pidata/yeelink.key"));
+		String key = FileUtil.read(new File("/mnt/usb_1/pidata/yeelink.key"));
 		if (StringUtil.isBlank(key)) {
 			throw new RuntimeException("获取 U-ApiKey错误");
 		}
